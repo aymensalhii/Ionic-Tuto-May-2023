@@ -1,0 +1,7 @@
+{
+  "name": "IonicMay2023",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
