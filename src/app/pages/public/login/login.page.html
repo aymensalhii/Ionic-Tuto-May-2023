@@ -1,0 +1,65 @@
+<ion-content class="ion-padding">
+  <div id="recaptcha-verifier"></div>
+  
+  <div *ngIf="mode === 'tlf'">
+    <h3>Login Using Phone Number</h3>
+    <div class="form-field mb-3">
+      <ion-label position="stacked">Phone Number</ion-label>
+      <ion-input type="tel" name="phonenbr" [(ngModel)]="phoneNumber" placeholder="+974 9999 8888" [disabled]="step > 0"></ion-input>
+    </div>
+  
+    <div class="form-field" *ngIf="step > 0">
+      <ion-label position="stacked">Verification Code</ion-label>
+      <code-input 
+        (codeChanged)="onCodeChanged($event)"
+        (codeCompleted)="onCodeCompleted($event)"
+        >
+      </code-input>
+    </div>
+  
+    <ion-button expand="block" class="bottom-fixed-btn" *ngIf="step === 0" [disabled]="phoneNumber === ''" (click)="SendOTP()">Login</ion-button>
+    <ion-button expand="block" class="bottom-fixed-btn" *ngIf="step === 1" (click)="verifyCode()">Verify OTP</ion-button>
+  </div>
+
+  <div *ngIf="mode === 'email'">
+    <ion-segment [(ngModel)]="emailMode">
+      <ion-segment-button value="signin">
+        <ion-label>Sign In</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="signup">
+        <ion-label>Sign Up</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+    <div *ngIf="emailMode === 'signin'">
+      <h3>Login Using Email/Password</h3>
+      <div class="form-field mb-3">
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input type="email" name="email" [(ngModel)]="email" placeholder="example@mail.com"></ion-input>
+      </div>
+      <div class="form-field mb-3">
+        <ion-label position="stacked">Password</ion-label>
+        <ion-input type="password" name="password" [(ngModel)]="password" placeholder="***********"></ion-input>
+      </div>
+      <ion-button expand="block" (click)="Login()">Login</ion-button>
+    </div>
+    <div *ngIf="emailMode === 'signup'">
+      <h3>Create new User Using Email/Password</h3>
+      <div class="form-field mb-3">
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input type="email" name="email" [(ngModel)]="email" placeholder="example@mail.com"></ion-input>
+      </div>
+      <div class="form-field mb-3">
+        <ion-label position="stacked">Password</ion-label>
+        <ion-input type="password" name="password" [(ngModel)]="password" placeholder="***********"></ion-input>
+      </div>
+      <ion-button expand="block" (click)="SignUp()">Create User</ion-button>
+    </div>
+  </div>
+
+  <div class="auth-btns">
+    <ion-button expand="block" (click)="mode = 'email'" *ngIf="mode != 'email'">Login using Email/Password</ion-button>
+    <ion-button expand="block" (click)="mode = 'tlf'" *ngIf="mode != 'tlf'">Login using Phone Number</ion-button>
+    <ion-button expand="block">Login using Google</ion-button>
+    <ion-button expand="block">Login using Apple</ion-button>
+  </div>
+</ion-content>
